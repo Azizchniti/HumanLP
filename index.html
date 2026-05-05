@@ -1265,12 +1265,8 @@ Aguardo retorno com os próximos passos.`;
         email
       })
     })
-    .then(res => res.json())
     .then(() => {
-      // success UI
       form.classList.add('is-sent');
-
-      // open WhatsApp AFTER saving
       window.open(url, '_blank', 'noopener');
     })
     .catch(err => {
