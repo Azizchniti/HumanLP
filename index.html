@@ -1222,6 +1222,7 @@
   // ⚠️ TROQUE ESTE NÚMERO PELO WHATSAPP OFICIAL DO ORGANIZADOR
   // Formato internacional sem "+", sem espaços. Ex: 5511999999999
   const WHATSAPP_NUMBER = '5511999999999';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgxG0Y-Nh1PyyajnUqSMdaCRTqrMIv2MzTOjHG7t7A1cKogDdF4uYGPqBqN5nnqQRsHQ/exec';
 
   const form = document.getElementById('rsvp-form');
   form.addEventListener('submit', (e) => {
@@ -1253,10 +1254,29 @@ Aguardo retorno com os próximos passos.`;
 
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-    // success state
-    form.classList.add('is-sent');
-    // open WhatsApp
-    window.open(url, '_blank', 'noopener');
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        nome,
+        whatsapp,
+        email
+      })
+    })
+    .then(res => res.json())
+    .then(() => {
+      // success UI
+      form.classList.add('is-sent');
+
+      // open WhatsApp AFTER saving
+      window.open(url, '_blank', 'noopener');
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erro ao enviar. Tente novamente.");
+    });
   });
 </script>
 </body>
