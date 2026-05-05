@@ -1222,7 +1222,7 @@
   // ⚠️ TROQUE ESTE NÚMERO PELO WHATSAPP OFICIAL DO ORGANIZADOR
   // Formato internacional sem "+", sem espaços. Ex: 5511999999999
   const WHATSAPP_NUMBER = '5511999999999';
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgxG0Y-Nh1PyyajnUqSMdaCRTqrMIv2MzTOjHG7t7A1cKogDdF4uYGPqBqN5nnqQRsHQ/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyeA-FQ5YMj1xqMj3F1CxYa70MeqFqqC6pJdtbGTaDE4d5RKD-8Fk-WvGXxABc_7MWvCQ/exec';
 
   const form = document.getElementById('rsvp-form');
   form.addEventListener('submit', (e) => {
@@ -1254,25 +1254,23 @@ Aguardo retorno com os próximos passos.`;
 
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-    fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        nome,
-        whatsapp,
-        email
-      })
-    })
-    .then(() => {
-      form.classList.add('is-sent');
-      window.open(url, '_blank', 'noopener');
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Erro ao enviar. Tente novamente.");
-    });
+  const formData = new FormData();
+formData.append("nome", nome);
+formData.append("whatsapp", whatsapp);
+formData.append("email", email);
+
+fetch(SCRIPT_URL, {
+  method: "POST",
+  body: formData
+})
+.then(() => {
+  form.classList.add('is-sent');
+  window.open(url, '_blank', 'noopener');
+})
+.catch(err => {
+  console.error(err);
+  alert("Erro ao enviar. Tente novamente.");
+});
   });
 </script>
 </body>
